@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+  kanboard:
+    container_name: kanboard
+    image: kanboard/kanboard:latest
+    restart: unless-stopped
+    volumes:
+      - ./data:/var/www/app/data
+      - ./plugins:/var/www/app/plugins
+    environment:
+      DATABASE_URL: mysql://kb:kb-secret@kbdb/kanboard
+    ports:
+      - 1980:80
+
+  kbdb:
+    container_name: kbdb
+    image: mariadb:latest
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./kbdb/:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: kanboard
+      MYSQL_USER: kb
+      MYSQL_PASSWORD: kb-secret
+
+networks:
+  kanboard:
+    driver: bridge
