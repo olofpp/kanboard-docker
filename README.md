@@ -9,3 +9,5 @@ How to use.
 Note that data, plugins and kbdb(mariadb) will be stored in a subfolders. 
 
 Adding data/config.php to enable plugins directory out of the box. 
+
+Default login is admin/admin
