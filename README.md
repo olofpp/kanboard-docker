@@ -6,4 +6,4 @@ How to use.
 2. cd pisignage-docker
 3. docker-compose up -d
 
-Note that data, plugins and kbdb(mariadb) will be stored in a subfolder called storage.
+Note that data, plugins and kbdb(mariadb) will be stored in a subfolders. 
