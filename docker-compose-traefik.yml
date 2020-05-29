@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+  kanboard:
+    container_name: kanboard
+    image: kanboard/kanboard:latest
+    restart: unless-stopped
+    volumes:
+      - ./data:/var/www/app/data
+      - ./plugins:/var/www/app/plugins
+    environment:
+      DATABASE_URL: mysql://kb:kb-secret@kbdb/kanboard
+    networks:
+      - traefik
+    ports:
+      - 1980:80
+    labels:
+      - traefik.enable=true
+      - traefik.backend=kanboard
+      - traefik.http.services.kanboard.loadbalancer.server.port=80
+      # SSL configuration
+      - traefik.http.routers.kanboard.entryPoints=https
+      - traefik.http.routers.kanboard.rule=host(`kanboard.${TRAEFIK_DOMAIN}`)
+      - traefik.http.routers.kanboard.tls=true
+      - traefik.http.routers.kanboard.tls.certResolver=le
+
+  kbdb:
+    container_name: kbdb
+    image: mariadb:latest
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./kbdb/:/var/lib/mysql
+    networks:
+      - traefik
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: kanboard
+      MYSQL_USER: kb
+      MYSQL_PASSWORD: kb-secret
+
+networks:
+  traefik:
+    driver: bridge
