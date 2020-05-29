@@ -12,8 +12,6 @@ services:
       DATABASE_URL: mysql://kb:kb-secret@kbdb/kanboard
     networks:
       - traefik
-    ports:
-      - 1980:80
     labels:
       - traefik.enable=true
       - traefik.backend=kanboard
