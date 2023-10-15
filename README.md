@@ -3,7 +3,7 @@
 How to use.
 
 1. git clone https://github.com/olofpp/kanboard-docker.git
-2. cd pisignage-docker
+2. cd kanboard-docker
 3. docker-compose up -d
 4. Access site with http://localhost:1980
 
